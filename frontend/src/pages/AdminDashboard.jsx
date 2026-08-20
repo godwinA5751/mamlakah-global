@@ -101,72 +101,101 @@ export default function AdminDashboard() {
               <tbody>
                 {loading ? (
                   [...Array(8)].map((_, index) => (
-                    <tr key={index} className="border-b border-gray-200">
-                      <td className="p-4">
-                        <div className="h-4 w-8 bg-gray-200 rounded-full animate-pulse"></div>
+                    <tr key={index}>
+                      <td className="p-4 border-b border-gray-200">
+                        <div className="h-4 w-8 bg-gray-200 rounded-full animate-pulse" />
                       </td>
-                      
-                      <td className="p-4">
-                        <div className="h-4 w-40 bg-gray-200 rounded animate-pulse"></div>
+
+                      <td className="p-4 border-b border-gray-200">
+                        <div className="h-4 w-40 bg-gray-200 rounded animate-pulse" />
                       </td>
-        
-                      <td className="p-4">
-                        <div className="h-4 w-56 bg-gray-200 rounded animate-pulse"></div>
+
+                      <td className="p-4 border-b border-gray-200">
+                        <div className="h-4 w-56 bg-gray-200 rounded animate-pulse" />
                       </td>
-        
-                      <td className="p-4">
-                        <div className="h-4 w-32 bg-gray-200 rounded animate-pulse"></div>
+
+                      <td className="p-4 border-b border-gray-200">
+                        <div className="h-4 w-32 bg-gray-200 rounded animate-pulse" />
                       </td>
-        
-                      <td className="p-4">
-                        <div className="h-4 w-28 bg-gray-200 rounded animate-pulse"></div>
+
+                      <td className="p-4 border-b border-gray-200">
+                        <div className="h-4 w-28 bg-gray-200 rounded animate-pulse" />
                       </td>
-        
-                      <td className="p-4">
+
+                      <td className="p-4 border-b border-gray-200">
                         <div className="flex justify-center">
-                          <div className="h-9 w-9 rounded-full bg-gray-200 animate-pulse"></div>
+                          <div className="h-9 w-9 rounded-full bg-gray-200 animate-pulse" />
                         </div>
                       </td>
                     </tr>
                   ))
                 ) : users.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="p-4 text-center text-gray-500">No memebers found</td>
+                    <td
+                      colSpan={6}
+                      className="p-8 text-center text-gray-500 border-b border-gray-200"
+                    >
+                      No members found
+                    </td>
                   </tr>
                 ) : (
                   users.map((user, index) => (
                     <tr
                       key={user._id}
-                      className="border-b border-blue-200 hover:bg-blue-50 transition cursor-pointer"
+                      className="hover:bg-blue-50 transition cursor-pointer"
                       onClick={(e) => {
                         e.stopPropagation();
                         getUser(user._id);
                       }}
                     >
-                      <td className="p-4 text-blue-900">
-                        <span className="px-3 bg-blue-300/20 rounded-full">{index + 1 < 10 ? `0${index + 1}` : index + 1}</span>
+                      <td className="p-4 text-blue-900 border-b border-blue-200">
+                        <span className="px-3 bg-blue-300/20 rounded-full">
+                          {index + 1 < 10
+                            ? `0${index + 1}`
+                            : index + 1}
+                        </span>
                       </td>
-                      <td className="p-4 text-blue-900">{user.name}</td>
-                      <td className="p-4 text-blue-900">{user.email}</td>
-                      <td className="p-4 text-blue-900">{user.phone}</td>
-                      <td className="p-4 text-blue-900">{user.country}</td>
-        
-                      <td className="p-4 flex justify-center">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setDeleteId(user._id);
-                          }}
-                          className="text-red-500 hover:bg-red-50 p-2 rounded-lg transition"
-                        >
-                          <Trash size={20} />
-                        </button>
+
+                      <td className="p-4 text-blue-900 border-b border-blue-200">
+                        {user.name}
+                      </td>
+
+                      <td className="p-4 text-blue-900 border-b border-blue-200">
+                        {user.email}
+                      </td>
+
+                      <td className="p-4 text-blue-900 border-b border-blue-200">
+                        {user.phone}
+                      </td>
+
+                      <td className="p-4 text-blue-900 border-b border-blue-200">
+                        {user.country}
+                      </td>
+
+                      <td className="p-4 border-b border-blue-200">
+                        <div className="flex justify-center">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setDeleteId(user._id);
+                            }}
+                            className="
+                              text-red-500
+                              hover:bg-red-50
+                              p-2
+                              rounded-lg
+                              transition
+                              cursor-pointer
+                            "
+                          >
+                            <Trash size={20} />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))
                 )}
               </tbody>
-        
             </table>
           </div>
           <div className="text-center p-3 text-blue-800 font-bold">
