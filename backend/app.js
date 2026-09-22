@@ -6,6 +6,7 @@ import cors from "cors";
 
 import bioDataRoutes from "./routes/bioDataRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import prayerPointRoutes from "./routes/prayerPointRoutes.js";
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use(
 app.use(express.json());
 
 app.use("/biodata", bioDataRoutes);
+app.use("/prayer", prayerPointRoutes)
 app.use("/auth", authRoutes);
 
 

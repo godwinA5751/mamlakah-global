@@ -53,8 +53,8 @@ export default function CTA() {
             Connect With Us
           </button>
 
-          <a
-            href="#community"
+          <button
+            onClick={() => navigate("/prayer")}
             className="
               bg-white
               shadow-lg
@@ -67,10 +67,11 @@ export default function CTA() {
               hover:text-white
               transition-all
               duration-300
+              cursor-pointer
             "
           >
-            Explore Our Programs
-          </a>
+            Send a Prayer Request
+          </button>
 
         </div>
 
