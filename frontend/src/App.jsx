@@ -4,6 +4,7 @@ import Main from "./pages/Main";
 import BioData from "./pages/BioData";
 import PrayerPoint from "./pages/PrayerPoint"
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminPrayers from "./pages/AdminPrayers";
 import AdminLogin from "./pages/AdminLogin";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -19,7 +20,13 @@ function App() {
         <Route path="/admin" element={
           <ProtectedRoute>
             <AdminDashboard />
-          </ProtectedRoute>} />
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/prayers" element={
+          <ProtectedRoute>
+            <AdminPrayers />
+          </ProtectedRoute>
+        } />
       </Routes>
     </>
   );

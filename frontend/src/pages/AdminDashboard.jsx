@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import toast from "react-hot-toast";
-import { Trash, LucideRefreshCw } from "lucide-react";
+import { Trash, LucideRefreshCw, Bell, Eye } from "lucide-react";
 
 
 export default function AdminDashboard() {
@@ -10,6 +11,22 @@ export default function AdminDashboard() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+  const navigate = useNavigate();
+  const [newPrayerCount, setNewPrayerCount] = useState(0);
+
+  const fetchNewPrayerCount = async () => {
+    try {
+      const { data } = await api.get("/prayer/count/new");
+      setNewPrayerCount(data.count);
+    } catch {
+      // silent fail — non-critical
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+    fetchNewPrayerCount();
+  }, []);
 
   const fetchUsers = async () => {
     try {
@@ -71,17 +88,34 @@ export default function AdminDashboard() {
             </p>
 
           </div>
-          <LucideRefreshCw
-            onClick={() => {
-              setRefreshing(true);
-              fetchUsers();
-              setTimeout(() => {
-                setRefreshing(false);
-              }, 500);
-            }}
-            className={`inline-block cursor-pointer text-blue-800 font-bold text-2xl ${refreshing ? "spin" : ""}`}
-            
-          />
+          <div className="flex items-center gap-4">
+
+            <button
+              onClick={() => navigate("/admin/prayers")}
+              className="relative cursor-pointer text-blue-800 hover:text-yellow-600 transition"
+            >
+              <Bell size={24} />
+
+              {newPrayerCount > 0 && (
+                <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                  {newPrayerCount > 9 ? "9+" : newPrayerCount}
+                </span>
+              )}
+            </button>
+
+            <LucideRefreshCw
+              onClick={() => {
+                setRefreshing(true);
+                fetchUsers();
+                fetchNewPrayerCount();
+                setTimeout(() => {
+                  setRefreshing(false);
+                }, 500);
+              }}
+              className={`inline-block cursor-pointer text-blue-800 font-bold text-2xl ${refreshing ? "spin" : ""}`}
+            />
+
+          </div>
         </div>
 
         <div className=" h-[calc(100vh-108px)] mt-11 pt-20 rounded-xl shadow-2xl">
@@ -173,7 +207,17 @@ export default function AdminDashboard() {
                       </td>
 
                       <td className="p-4 border-b border-blue-200">
-                        <div className="flex justify-center">
+                        <div className="flex justify-center gap-2">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              getUser(user._id);
+                            }}
+                            className="text-blue-800 hover:bg-blue-50 p-2 rounded-lg transition cursor-pointer"
+                          >
+                            <Eye size={20} />
+                          </button>
+
                           <button
                             onClick={(e) => {
                               e.stopPropagation();

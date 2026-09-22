@@ -3,27 +3,20 @@ import PrayerPoint from "../models/PrayerPoint.js";
 export const createPrayerPoint = async (req, res) => {
   try {
     const { name, email, phone, prayer } = req.body;
-    const prayerRequest = await PrayerPoint.create({ name, email, phone, prayer });
+
+    const newPrayer = await PrayerPoint.create({ name, email, phone, prayer });
 
     res.status(201).json({
       success: true,
       message: "Prayer Point submitted successfully",
-      data: prayerRequest,
+      data: newPrayer,
     });
   } catch (error) {
-    console.error(error)
-    // MongoDB duplicate key error
+    console.error(error);
     if (error.code === 11000) {
       return res.status(409).json({
         success: false,
         message: "Email already exists.",
-      });
-    }
-
-    if (error.name === "ValidationError") {
-      return res.status(400).json({ 
-        success: false, 
-        message: error.message 
       });
     }
 
@@ -36,7 +29,10 @@ export const createPrayerPoint = async (req, res) => {
 
 export const getAllPrayerPoint = async (req, res) => {
   try {
+    // "New" sorts before "Reviewed" alphabetically, so status:1 groups
+    // New requests first, and within each group, newest first.
     const data = await PrayerPoint.find({ isArchived: false }).sort({
+      status: 1,
       createdAt: -1,
     });
 
@@ -66,6 +62,55 @@ export const getPrayerPoint = async (req, res) => {
 
     res.json({
       success: true,
+      data: prayer,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// NEW: lightweight count for the dashboard notification badge
+export const getNewPrayerCount = async (req, res) => {
+  try {
+    const count = await PrayerPoint.countDocuments({
+      isArchived: false,
+      status: "New",
+    });
+
+    res.json({
+      success: true,
+      count,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// NEW: flips a prayer from "New" to "Reviewed"
+export const markPrayerReviewed = async (req, res) => {
+  try {
+    const prayer = await PrayerPoint.findByIdAndUpdate(
+      req.params.id,
+      { status: "Reviewed" },
+      { new: true }
+    );
+
+    if (!prayer) {
+      return res.status(404).json({
+        success: false,
+        message: "Record not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Marked as reviewed",
       data: prayer,
     });
   } catch (error) {

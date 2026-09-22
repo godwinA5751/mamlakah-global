@@ -78,16 +78,15 @@ export default function PrayerPointForm() {
       <div className="lg:hidden fixed inset-0 bg-[#0D1B2A]/70 backdrop-blur-[1px]" />
 
       {/* PAGE CONTENT */}
-      <div className="relative z-10 h-screen flex items-center justify-center p-4  overflow-y-auto lg:overflow-hidden">
-        <div className="w-full h-screen mt-5">
+      <div className="relative z-10 h-screen flex items-center justify-center p-4">
+        <div className="w-full h-screen mt-8 mb-8 overflow-y-auto lg:overflow-hidden">
 
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="mb-3 lg:mb-3 flex items-center gap-2 text-white hover:text-yellow-600 transition cursor-pointer font-semibold"
+            className="mb-3 lg:mb-3 text-white hover:text-yellow-600 transition cursor-pointer font-semibold mt-10 bg-amber-200/30 p-2 rounded-full shadow"
           >
             <FaArrowLeft size={14} />
-            Back
           </button>
 
           <div className="flex lg:justify-between overflow-hidden lg:max-h-[calc(100vh-5rem)] lg:p-10">
@@ -134,7 +133,7 @@ export default function PrayerPointForm() {
 
                 <form onSubmit={handleSubmit} className="space-y-5 lg:space-y-3 p-5">
 
-                  <div className="grid lg:grid-cols-2 gap-7">
+                  <div className="grid lg:grid-cols-2 lg:gap-7 gap-5">
                     <div>
                       <label htmlFor="name" className="block text-sm font-semibold text-blue-900 mb-2 lg:mb-1">
                         Full Name
